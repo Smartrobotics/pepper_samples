@@ -1,0 +1,423 @@
+[
+    {
+        "id": "fb542952.254aa8",
+        "type": "tab",
+        "label": "Flow 1"
+    },
+    {
+        "id": "347c67e3.cb73a",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws",
+        "wholemsg": "false"
+    },
+    {
+        "id": "c079a6cb.28d1c8",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws",
+        "wholemsg": "false"
+    },
+    {
+        "id": "be2cf8d1.a87aa8",
+        "type": "http in",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "url": "/frompepper",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 171.5,
+        "y": 120.25,
+        "wires": [
+            [
+                "24c3adaa.a7e962"
+            ]
+        ]
+    },
+    {
+        "id": "24c3adaa.a7e962",
+        "type": "template",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Bluemix からこんにちは",
+        "x": 347.5,
+        "y": 121.75,
+        "wires": [
+            [
+                "be9434cd.9fac1"
+            ]
+        ]
+    },
+    {
+        "id": "be9434cd.9fac1",
+        "type": "http response",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "x": 495.5,
+        "y": 123.5,
+        "wires": []
+    },
+    {
+        "id": "4502437b.7c4084",
+        "type": "http in",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "url": "/image",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 163.5,
+        "y": 197.25,
+        "wires": [
+            [
+                "70a409b5.8ce4a8"
+            ]
+        ]
+    },
+    {
+        "id": "70a409b5.8ce4a8",
+        "type": "visual-recognition-v3",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "apikey": "",
+        "image-feature": "classifyImage",
+        "lang": "ja",
+        "x": 356.5,
+        "y": 196.5,
+        "wires": [
+            [
+                "59f90e6d.3470d"
+            ]
+        ]
+    },
+    {
+        "id": "65172767.9104a8",
+        "type": "http response",
+        "z": "fb542952.254aa8",
+        "name": "result",
+        "x": 753.5,
+        "y": 196.5,
+        "wires": []
+    },
+    {
+        "id": "c829db76.3f13c",
+        "type": "http in",
+        "z": "fb542952.254aa8",
+        "name": "stt",
+        "url": "/voice",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 146.5,
+        "y": 273.25,
+        "wires": [
+            [
+                "df003b99.3a2d5"
+            ]
+        ]
+    },
+    {
+        "id": "df003b99.3a2d5",
+        "type": "watson-speech-to-text",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "continuous": true,
+        "lang": "ja-JP",
+        "langhidden": "ja-JP",
+        "band": "BroadbandModel",
+        "bandhidden": "",
+        "password": "root1025",
+        "x": 350.5,
+        "y": 272.5,
+        "wires": [
+            [
+                "b7cca606.ecbc6"
+            ]
+        ]
+    },
+    {
+        "id": "59f90e6d.3470d",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "pack vision result",
+        "func": "msg.payload = msg.result;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 573.5,
+        "y": 196.75,
+        "wires": [
+            [
+                "65172767.9104a8"
+            ]
+        ]
+    },
+    {
+        "id": "b7cca606.ecbc6",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "pack stt result",
+        "func": "msg.payload = msg.transcription;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 563.5,
+        "y": 272.75,
+        "wires": [
+            [
+                "93ae732a.9446c8"
+            ]
+        ]
+    },
+    {
+        "id": "93ae732a.9446c8",
+        "type": "http response",
+        "z": "fb542952.254aa8",
+        "name": "result",
+        "x": 755.5,
+        "y": 273.5,
+        "wires": []
+    },
+    {
+        "id": "49d906a6.8bd92",
+        "type": "http in",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "url": "/tts",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 160.5,
+        "y": 345.25,
+        "wires": [
+            [
+                "9674cf39.013248"
+            ]
+        ]
+    },
+    {
+        "id": "1d0b2cd6.4719c3",
+        "type": "watson-text-to-speech",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "lang": "ja-JP",
+        "langhidden": "ja-JP",
+        "voice": "ja-JP_EmiVoice",
+        "voicehidden": "",
+        "format": "audio/wav",
+        "password": "root1025",
+        "x": 324.5,
+        "y": 417.5,
+        "wires": [
+            [
+                "b73c0349.30efd"
+            ]
+        ]
+    },
+    {
+        "id": "9674cf39.013248",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "発話内容の生成",
+        "func": "msg.payload = \"こんにちはワトソンです\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 324.5,
+        "y": 349.75,
+        "wires": [
+            [
+                "1d0b2cd6.4719c3"
+            ]
+        ]
+    },
+    {
+        "id": "b73c0349.30efd",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "msg.payload = msg.speech",
+        "func": "msg.payload = msg.speech;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 392.5,
+        "y": 483.75,
+        "wires": [
+            [
+                "44e3ff43.e4ce28"
+            ]
+        ]
+    },
+    {
+        "id": "44e3ff43.e4ce28",
+        "type": "http response",
+        "z": "fb542952.254aa8",
+        "name": "result",
+        "x": 606,
+        "y": 482,
+        "wires": []
+    },
+    {
+        "id": "78c1ffef.c27c4",
+        "type": "websocket out",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "server": "347c67e3.cb73a",
+        "client": "",
+        "x": 499.5,
+        "y": 562.5,
+        "wires": []
+    },
+    {
+        "id": "9d0fa172.86f628",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "func": "msg.payload = msg.payload + \"というメッセージを受け取りました\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 347.5,
+        "y": 564.75,
+        "wires": [
+            [
+                "78c1ffef.c27c4"
+            ]
+        ]
+    },
+    {
+        "id": "3ec6b196.1f19b6",
+        "type": "template",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "ノードレッドからのメッセージです",
+        "x": 337.5,
+        "y": 629.75,
+        "wires": [
+            [
+                "78c1ffef.c27c4"
+            ]
+        ]
+    },
+    {
+        "id": "6934861a.b0158",
+        "type": "inject",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 202.5,
+        "y": 630.25,
+        "wires": [
+            [
+                "3ec6b196.1f19b6"
+            ]
+        ]
+    },
+    {
+        "id": "9596579f.3583f",
+        "type": "debug",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 796.5,
+        "y": 803.5,
+        "wires": []
+    },
+    {
+        "id": "2b169a.edab5166",
+        "type": "websocket in",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "server": "347c67e3.cb73a",
+        "client": "",
+        "x": 175.5,
+        "y": 565.25,
+        "wires": [
+            [
+                "9d0fa172.86f628"
+            ]
+        ]
+    },
+    {
+        "id": "9b692d98.1b818",
+        "type": "http request",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 620.5,
+        "y": 780.75,
+        "wires": [
+            [
+                "9596579f.3583f",
+                "a0393c45.0211a8"
+            ]
+        ]
+    },
+    {
+        "id": "71decf3.300b8b",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "data for google vision api",
+        "func": "msg.payload = {\"requests\" :[{\n   \"features\" : [{\"type\":\"TEXT_DETECTION\", \"maxResults\": 1}],\n   \"image\" : {\"content\" : new Buffer(msg.req.body).toString('base64')},\n   \"imageContext\":{\"languageHints\":\"ja\"}\n   }]}\n   \nmsg.url=\"https://vision.googleapis.com/v1/images:annotate?key=<Google Cloud APIKEY>\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 402.5,
+        "y": 780.75,
+        "wires": [
+            [
+                "9b692d98.1b818"
+            ]
+        ]
+    },
+    {
+        "id": "7f811ba0.2df1dc",
+        "type": "http in",
+        "z": "fb542952.254aa8",
+        "name": "",
+        "url": "/gimage",
+        "method": "post",
+        "swaggerDoc": "",
+        "x": 185,
+        "y": 780,
+        "wires": [
+            [
+                "71decf3.300b8b"
+            ]
+        ]
+    },
+    {
+        "id": "ff80b7d2.6b9908",
+        "type": "http response",
+        "z": "fb542952.254aa8",
+        "name": "result",
+        "x": 942,
+        "y": 742,
+        "wires": []
+    },
+    {
+        "id": "a0393c45.0211a8",
+        "type": "function",
+        "z": "fb542952.254aa8",
+        "name": "parse result",
+        "func": "\nmsg.payload = msg.payload.responses[0].textAnnotations[0].description;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800.5,
+        "y": 741.75,
+        "wires": [
+            [
+                "ff80b7d2.6b9908"
+            ]
+        ]
+    }
+]
